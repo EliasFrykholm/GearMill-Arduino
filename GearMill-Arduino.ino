@@ -63,7 +63,7 @@ void startScreen() {
   }
   else if (digitalRead(OK_PIN) == LOW) {
     motorStepsPerCog = MOTOR_STEPS/nrOfCogs;
-    delay(50)
+    delay(50);
     stepFunction();
   }
   }
@@ -107,7 +107,7 @@ void stepFunction(){
     delay(300);
   }
   else if (digitalRead(OK_PIN) == LOW){
-    delay(50)
+    delay(50);
     startScreen();
   }
   }
