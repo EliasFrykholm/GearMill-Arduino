@@ -22,7 +22,7 @@ void setup() {
   pinMode(STEP_PIN,OUTPUT);
   pinMode(DIR_PIN,OUTPUT);
   
-  nrOfCogs = 1;
+  nrOfCogs = 20;
   lcd.init();
   lcd.backlight();
 }
@@ -62,8 +62,8 @@ void startScreen() {
     delay(250);
   }
   else if (digitalRead(OK_PIN) == LOW) {
-    motorStepsPerCog = MOTOR_STEPS/nrOfCogs;
     delay(50);
+    motorStepsPerCog = MOTOR_STEPS/nrOfCogs;
     stepFunction();
   }
   }
@@ -94,7 +94,8 @@ void stepFunction(){
     }
     else{
       digitalWrite(DIR_PIN, LOW);
-      stepMotor();
+      stepMotor(motorStepsPerCog);
+      delay(300);
     }
   }
   else if (digitalRead(UP_PIN) == LOW){
@@ -103,7 +104,7 @@ void stepFunction(){
       cogCount = 1;
     }
     digitalWrite(DIR_PIN, HIGH);
-    stepMotor();
+    stepMotor(motorStepsPerCog);
     delay(300);
   }
   else if (digitalRead(OK_PIN) == LOW){
@@ -113,12 +114,11 @@ void stepFunction(){
   }
 }
 
-void stepMotor(){
-  for(int x = 0; x < motorStepsPerCog; x++){
+void stepMotor(int steps){
+  for(int x = 0; x < steps; x++){
   digitalWrite(STEP_PIN,HIGH);
-  delayMicroseconds(500);
+  delayMicroseconds(800);
   digitalWrite(STEP_PIN,LOW);
-  delayMicroseconds(500);
+  delayMicroseconds(800);
 }
 }
-
