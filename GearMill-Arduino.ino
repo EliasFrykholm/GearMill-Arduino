@@ -10,8 +10,9 @@
 #define MOTOR_STEPS 200
 
 LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27, 16, 2);
-uint8_t nrOfCogs;
-uint8_t motorStepsPerCog;
+uint16_t nrOfCogs;
+uint16_t motorStepsPerCog;
+uint16_t rest;
 
 void setup() {
   // Initiate the LCD:
@@ -64,6 +65,7 @@ void startScreen() {
   else if (digitalRead(OK_PIN) == LOW) {
     delay(50);
     motorStepsPerCog = MOTOR_STEPS/nrOfCogs;
+    rest = MOTOR_STEPS%nrOfCogs;
     stepFunction();
   }
   }
@@ -94,17 +96,18 @@ void stepFunction(){
     }
     else{
       digitalWrite(DIR_PIN, LOW);
-      stepMotor(motorStepsPerCog);
+      stepMotor(motorStepsPerCog, rest);
       delay(300);
     }
   }
   else if (digitalRead(UP_PIN) == LOW){
     cogCount+=1;
     if(cogCount > nrOfCogs){
+      rest = MOTOR_STEPS%nrOfCogs;
       cogCount = 1;
     }
     digitalWrite(DIR_PIN, HIGH);
-    stepMotor(motorStepsPerCog);
+    stepMotor(motorStepsPerCog, rest);
     delay(300);
   }
   else if (digitalRead(OK_PIN) == LOW){
@@ -114,11 +117,18 @@ void stepFunction(){
   }
 }
 
-void stepMotor(int steps){
+void stepMotor(uint16_t steps, uint16_t &rest){
   for(int x = 0; x < steps; x++){
-  digitalWrite(STEP_PIN,HIGH);
-  delayMicroseconds(800);
-  digitalWrite(STEP_PIN,LOW);
-  delayMicroseconds(800);
-}
+    digitalWrite(STEP_PIN,HIGH);
+    delayMicroseconds(800);
+    digitalWrite(STEP_PIN,LOW);
+    delayMicroseconds(800);
+  }
+  if(rest > 0){
+    digitalWrite(STEP_PIN,HIGH);
+    delayMicroseconds(800);
+    digitalWrite(STEP_PIN,LOW);
+    delayMicroseconds(800);
+    rest --;
+  }
 }
