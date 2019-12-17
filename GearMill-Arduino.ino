@@ -36,7 +36,7 @@ void loop() {
 void startScreen() {
   lcd.clear();
   lcd.setCursor(0, 0);
-  lcd.print("Cogs to make: ");
+  lcd.print("Antal kuggar: ");
   lcd.setCursor(0,1);
   lcd.print(nrOfCogs);
   while(digitalRead(OK_PIN) == LOW){
@@ -76,12 +76,12 @@ void stepFunction(){
   lcd.clear();
   while(true){
   lcd.setCursor(0, 0);
-  lcd.print("Current step: ");
-  lcd.setCursor(13,0);
+  lcd.print("Kugg nr: ");
+  lcd.setCursor(9,0);
   lcd.print(cogCount);
     lcd.print("  ");
   lcd.setCursor(0,1);
-  lcd.print("OK to exit           ");
+  lcd.print("Avbryt med OK");
   lcd.print(cogCount);
   while(digitalRead(OK_PIN) == LOW){
     
