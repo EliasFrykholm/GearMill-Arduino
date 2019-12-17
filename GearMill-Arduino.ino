@@ -81,7 +81,7 @@ void stepFunction(){
   lcd.print(cogCount);
     lcd.print("  ");
   lcd.setCursor(0,1);
-  lcd.print("Avbryt med OK");
+  lcd.print("Avbryt med OK   ");
   lcd.print(cogCount);
   while(digitalRead(OK_PIN) == LOW){
     
